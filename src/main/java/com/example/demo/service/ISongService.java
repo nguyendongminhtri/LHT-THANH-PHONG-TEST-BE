@@ -15,4 +15,5 @@ public interface ISongService {
     Song save(Song song);
     Optional<Song> findById(Long id);
     Page<Song> findAllByCategoryId(Long id, Pageable pageable);
+    Page<Song> pageSongBySingerId(Long id,Pageable pageable);
 }

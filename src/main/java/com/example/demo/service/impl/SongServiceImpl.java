@@ -46,5 +46,10 @@ public class SongServiceImpl implements ISongService {
         return songRepository.findAllByCategoryId(id, pageable);
     }
 
+    @Override
+    public Page<Song> pageSongBySingerId(Long id, Pageable pageable) {
+        return songRepository.pageSongBySingerId(id,pageable);
+    }
+
 
 }
