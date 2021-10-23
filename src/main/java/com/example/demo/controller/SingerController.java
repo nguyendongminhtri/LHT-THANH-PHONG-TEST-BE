@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*")
@@ -50,5 +51,13 @@ public class SingerController {
         }
         Page<Song> songPage = songService.pageSongBySingerId(id,pageable);
         return new ResponseEntity<>(new SingerResponse(singer.get(), songPage),HttpStatus.OK);
+    }
+    @GetMapping("/list")
+    public ResponseEntity<?> getListSinger(){
+        List<Singer> singerList = singerService.findAll();
+        if(singerList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(singerList, HttpStatus.OK);
     }
 }

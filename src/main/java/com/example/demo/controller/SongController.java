@@ -37,19 +37,22 @@ public class SongController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createQuestion(@RequestBody Song song) {
+    public ResponseEntity<?> createSong(@RequestBody Song song) {
 //        song.setCategoryList(song.getCategoryList());
-        if(song.getAvatarSong()==null){
+        if (song.getAvatarSong() == null) {
             return new ResponseEntity<>(new ResponMessage("no_avatar"), HttpStatus.OK);
         }
-        if(song.getMp3Url()==null){
+        if (song.getMp3Url() == null) {
             return new ResponseEntity<>(new ResponMessage("no_mp3Url"), HttpStatus.OK);
+        }
+        if (song.getCategory() == null) {
+            return new ResponseEntity<>(new ResponMessage("no_category"), HttpStatus.OK);
         }
         songService.save(song);
         return new ResponseEntity<>(new ResponMessage("yes"), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("category/{id}")
     public ResponseEntity<?> findCategoryBySong(@PathVariable Long id, Pageable pageable) {
         Optional<Category> category = categoryService.findById(id);
         if (!category.isPresent()) {
@@ -59,4 +62,21 @@ public class SongController {
         return new ResponseEntity<>(songPage, HttpStatus.OK);
     }
 
-}
+    @GetMapping("/{id}")
+    public ResponseEntity<?> detailSong(@PathVariable Long id) {
+        Optional<Song> song = songService.findById(id);
+        if (!song.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(song, HttpStatus.OK);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteSong(@PathVariable Long id){
+        Optional<Song> song = songService.findById(id);
+        if (!song.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        songService.deleteById(id);
+        return new ResponseEntity<>(new ResponMessage("delete_success"), HttpStatus.OK);
+    }
+    }
