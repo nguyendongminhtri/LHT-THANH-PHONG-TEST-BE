@@ -48,8 +48,17 @@ public class SongController {
         if (song.getCategory() == null) {
             return new ResponseEntity<>(new ResponMessage("no_category"), HttpStatus.OK);
         }
-        songService.save(song);
-        return new ResponseEntity<>(new ResponMessage("yes"), HttpStatus.OK);
+        if(song.getSingerList().size()==0){
+            if(song.getBandList().size()==0){
+                return new ResponseEntity<>(new ResponMessage("no_singer_band"), HttpStatus.OK);
+            } else {
+                songService.save(song);
+                return new ResponseEntity<>(new ResponMessage("yes"), HttpStatus.OK);
+            }
+        } else {
+            songService.save(song);
+            return new ResponseEntity<>(new ResponMessage("yes"), HttpStatus.OK);
+        }
     }
 
     @GetMapping("category/{id}")
@@ -79,4 +88,5 @@ public class SongController {
         songService.deleteById(id);
         return new ResponseEntity<>(new ResponMessage("delete_success"), HttpStatus.OK);
     }
+
     }

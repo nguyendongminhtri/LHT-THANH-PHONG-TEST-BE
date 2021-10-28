@@ -22,10 +22,13 @@ public class Song {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "song_singer",joinColumns = @JoinColumn(name = "song_id"), inverseJoinColumns = @JoinColumn(name = "singer_id"))
     List<Singer> singerList = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "song_band", joinColumns = @JoinColumn(name = "song_id"), inverseJoinColumns = @JoinColumn(name = "band_id"))
+    List<Band> bandList = new ArrayList<>();
     public Song() {
     }
 
-    public Song(Long id, String nameSong, String lyrics, String avatarSong, String mp3Url, User user, Category category, List<Singer> singerList) {
+    public Song(Long id, String nameSong, String lyrics, String avatarSong, String mp3Url, User user, Category category, List<Singer> singerList, List<Band> bandList) {
         this.id = id;
         this.nameSong = nameSong;
         this.lyrics = lyrics;
@@ -34,6 +37,15 @@ public class Song {
         this.user = user;
         this.category = category;
         this.singerList = singerList;
+        this.bandList = bandList;
+    }
+
+    public List<Band> getBandList() {
+        return bandList;
+    }
+
+    public void setBandList(List<Band> bandList) {
+        this.bandList = bandList;
     }
 
     public List<Singer> getSingerList() {
