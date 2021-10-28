@@ -48,8 +48,8 @@ public class SongController {
         if (song.getCategory() == null) {
             return new ResponseEntity<>(new ResponMessage("no_category"), HttpStatus.OK);
         }
-        if(song.getSingerList().size()==0){
-            if(song.getBandList().size()==0){
+        if (song.getSingerList().size() == 0) {
+            if (song.getBandList().size() == 0) {
                 return new ResponseEntity<>(new ResponMessage("no_singer_band"), HttpStatus.OK);
             } else {
                 songService.save(song);
@@ -79,8 +79,9 @@ public class SongController {
         }
         return new ResponseEntity<>(song, HttpStatus.OK);
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteSong(@PathVariable Long id){
+    public ResponseEntity<?> deleteSong(@PathVariable Long id) {
         Optional<Song> song = songService.findById(id);
         if (!song.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -89,4 +90,12 @@ public class SongController {
         return new ResponseEntity<>(new ResponMessage("delete_success"), HttpStatus.OK);
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<?> listSong() {
+        List<Song> songList = songService.findAll();
+        if (songList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(songList, HttpStatus.OK);
     }
+}

@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public interface ISongService {
     Page<Song> findAll(Pageable pageable);
+    List<Song> findAll();
     void deleteById(Long id);
     Song save(Song song);
     Optional<Song> findById(Long id);
