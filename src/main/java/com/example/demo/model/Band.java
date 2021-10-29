@@ -18,32 +18,21 @@ public class Band {
     private String description;
     @ManyToOne
     User user;
-    //    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "bandList")
-//    @JsonBackReference
-//    List<Song> songList = new ArrayList<>();
-    @ManyToMany(mappedBy = "bandList", targetEntity = Song.class)
-    @JsonIgnoreProperties("bandList")
-    List<Song> songList = new ArrayList<>();
+
 
     public Band() {
     }
 
-    public Band(Long id, String nameBand, String avatarBand, String description, User user, List<Song> songList) {
+    public Band(Long id, String nameBand, String avatarBand, String description, User user) {
         this.id = id;
         this.nameBand = nameBand;
         this.avatarBand = avatarBand;
         this.description = description;
         this.user = user;
-        this.songList = songList;
+
     }
 
-    public List<Song> getSongList() {
-        return songList;
-    }
 
-    public void setSongList(List<Song> songList) {
-        this.songList = songList;
-    }
 
     public User getUser() {
         return user;
