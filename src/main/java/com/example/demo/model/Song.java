@@ -30,7 +30,7 @@ public class Song {
             inverseJoinColumns = @JoinColumn(name = "group_id"))
     @JsonIgnoreProperties("songList")
     List<Singer> singerList = new ArrayList<>();
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = Band.class)
     @JoinTable(name = "song_band", joinColumns = @JoinColumn(name = "song_id"), inverseJoinColumns = @JoinColumn(name = "band_id"))
     @JsonIgnoreProperties("songList")
