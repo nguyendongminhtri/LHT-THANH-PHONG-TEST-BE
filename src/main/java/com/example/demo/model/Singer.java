@@ -20,29 +20,29 @@ public class Singer {
     private String description;
     @ManyToOne
     User user;
-    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "singerList")
-    @JsonBackReference
-    List<Song> songList = new ArrayList<>();
+//    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "singerList")
+//    @JsonBackReference
+//    List<Song> songList = new ArrayList<>();
     public Singer() {
     }
 
-    public Singer(Long id, String nameSinger, String avatarSinger, LocalDate birthDay, String description, User user, List<Song> songList) {
+    public Singer(Long id, String nameSinger, String avatarSinger, LocalDate birthDay, String description, User user) {
         this.id = id;
         this.nameSinger = nameSinger;
         this.avatarSinger = avatarSinger;
         this.birthDay = birthDay;
         this.description = description;
         this.user = user;
-        this.songList = songList;
+//        this.songList = songList;
     }
 
-    public void setSongList(List<Song> songList) {
-        this.songList = songList;
-    }
-
-    public List<Song> getSongList() {
-        return songList;
-    }
+//    public void setSongList(List<Song> songList) {
+//        this.songList = songList;
+//    }
+//
+//    public List<Song> getSongList() {
+//        return songList;
+//    }
 
     public Long getId() {
         return id;
