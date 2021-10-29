@@ -23,12 +23,21 @@ public class Band {
     public Band() {
     }
 
-    public Band(Long id, String nameBand, String avatarBand, String description, User user) {
+    public Band(Long id, String nameBand, String avatarBand, String description, User user, List<Song> songList) {
         this.id = id;
         this.nameBand = nameBand;
         this.avatarBand = avatarBand;
         this.description = description;
         this.user = user;
+        this.songList = songList;
+    }
+
+    public void setSongList(List<Song> songList) {
+        this.songList = songList;
+    }
+
+    public List<Song> getSongList() {
+        return songList;
     }
 
     public User getUser() {
