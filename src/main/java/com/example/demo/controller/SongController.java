@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.response.ResponMessage;
+import com.example.demo.model.Band;
 import com.example.demo.model.Category;
 import com.example.demo.model.Song;
 import com.example.demo.service.impl.CategoryServiceImpl;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +32,7 @@ public class SongController {
     @GetMapping
     public ResponseEntity<?> pageSong(@PageableDefault(sort = "nameSong", direction = Sort.Direction.ASC) Pageable pageable) {
         Page<Song> page = songService.findAll(pageable);
+        List<Band> bandList = new ArrayList<>();
         if (page.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
