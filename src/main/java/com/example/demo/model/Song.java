@@ -21,19 +21,19 @@ public class Song {
     User user;
     @ManyToOne
     Category category;
-    //    @JsonIgnore
+        @JsonIgnore
 //    @ManyToMany(fetch = FetchType.LAZY)
 //    @JoinTable(name = "song_singer",joinColumns = @JoinColumn(name = "song_id"), inverseJoinColumns = @JoinColumn(name = "singer_id"))
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = Singer.class)
     @JoinTable(name = "song_singer",
             joinColumns = @JoinColumn(name = "song_id"),
             inverseJoinColumns = @JoinColumn(name = "singer_id"))
-    @JsonIgnoreProperties("songList")
+
     List<Singer> singerList = new ArrayList<>();
-    //    @JsonIgnore
+        @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = Band.class)
     @JoinTable(name = "song_band", joinColumns = @JoinColumn(name = "song_id"), inverseJoinColumns = @JoinColumn(name = "band_id"))
-    @JsonIgnoreProperties("songList")
+
     List<Band> bandList = new ArrayList<>();
     public Song() {
     }
