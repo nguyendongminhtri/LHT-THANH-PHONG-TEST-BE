@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,9 @@ public class Band {
     private String description;
     @ManyToOne
     User user;
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "bandList")
+    @JsonBackReference
+    List<Song> songList = new ArrayList<>();
     public Band() {
     }
 

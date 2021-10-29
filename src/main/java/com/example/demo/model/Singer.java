@@ -1,7 +1,11 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "singers")
@@ -16,6 +20,9 @@ public class Singer {
     private String description;
     @ManyToOne
     User user;
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "singerList")
+    @JsonBackReference
+    List<Song> songList = new ArrayList<>();
     public Singer() {
     }
 
