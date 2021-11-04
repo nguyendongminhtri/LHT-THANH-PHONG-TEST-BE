@@ -23,7 +23,7 @@ public class Song {
     User user;
     @ManyToOne
     Category category;
-            @JsonIgnore
+//            @JsonIgnore
 //    @ManyToMany(fetch = FetchType.LAZY)
 //    @JoinTable(name = "song_singer",joinColumns = @JoinColumn(name = "song_id"), inverseJoinColumns = @JoinColumn(name = "singer_id"))
     @ManyToMany(fetch = FetchType.LAZY)
@@ -31,7 +31,7 @@ public class Song {
             joinColumns = @JoinColumn(name = "song_id"),
             inverseJoinColumns = @JoinColumn(name = "singer_id"))
             List<Singer> singerList = null;
-            @JsonIgnore
+//            @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "song_band", joinColumns = @JoinColumn(name = "song_id"), inverseJoinColumns = @JoinColumn(name = "band_id"))
     List<Band> bandList = null;
