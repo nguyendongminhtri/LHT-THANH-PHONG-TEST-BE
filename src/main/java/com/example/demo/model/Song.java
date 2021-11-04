@@ -30,12 +30,11 @@ public class Song {
     @JoinTable(name = "song_singer",
             joinColumns = @JoinColumn(name = "song_id"),
             inverseJoinColumns = @JoinColumn(name = "singer_id"))
-            List<Singer> singerList = null;
+            List<Singer> singerList =null;
 //            @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "song_band", joinColumns = @JoinColumn(name = "song_id"), inverseJoinColumns = @JoinColumn(name = "band_id"))
     List<Band> bandList = null;
-
     public Song() {
     }
 
