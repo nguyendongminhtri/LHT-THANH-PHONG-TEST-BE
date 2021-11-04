@@ -51,7 +51,7 @@ public class Song {
 
     public List<Band> getBandList() {
         if(bandList==null){
-            this.bandList = new ArrayList<>();
+            bandList = new ArrayList<>();
         }
         return bandList;
     }
@@ -62,7 +62,7 @@ public class Song {
 
     public List<Singer> getSingerList() {
         if(singerList==null){
-            this.singerList = new ArrayList<>();
+            singerList = new ArrayList<>();
         }
         return singerList;
     }
