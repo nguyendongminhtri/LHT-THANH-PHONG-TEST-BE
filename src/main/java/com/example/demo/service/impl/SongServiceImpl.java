@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.Category;
+import com.example.demo.model.Singer;
 import com.example.demo.model.Song;
 import com.example.demo.model.User;
 import com.example.demo.repository.ISongRepository;
@@ -55,6 +56,12 @@ public class SongServiceImpl implements ISongService {
     public Page<Song> pageSongBySingerId(Long id, Pageable pageable) {
         return songRepository.pageSongBySingerId(id,pageable);
     }
+
+    @Override
+    public List<Singer> listSingerBySongId(Long id) {
+        return songRepository.listSingerBySongId(id);
+    }
+
 
 
 }

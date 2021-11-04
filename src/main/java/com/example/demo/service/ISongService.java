@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Category;
+import com.example.demo.model.Singer;
 import com.example.demo.model.Song;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,4 +18,6 @@ public interface ISongService {
     Optional<Song> findById(Long id);
     Page<Song> findAllByCategoryId(Long id, Pageable pageable);
     Page<Song> pageSongBySingerId(Long id,Pageable pageable);
+    List<Singer> listSingerBySongId(Long id);
+
 }

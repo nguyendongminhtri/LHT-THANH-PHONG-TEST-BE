@@ -3,8 +3,10 @@ package com.example.demo.controller;
 import com.example.demo.dto.response.ResponMessage;
 import com.example.demo.model.Band;
 import com.example.demo.model.Category;
+import com.example.demo.model.Singer;
 import com.example.demo.model.Song;
 import com.example.demo.service.impl.CategoryServiceImpl;
+import com.example.demo.service.impl.SingerServiceImpl;
 import com.example.demo.service.impl.SongServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -100,5 +102,14 @@ public class SongController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(songList, HttpStatus.OK);
+    }
+    @GetMapping("/by-singer/{id}")
+    public ResponseEntity<?> getSingerBySongId(@PathVariable Long id){
+        Optional<Song> song = songService.findById(id);
+        if (!song.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<Singer> singerList = songService.listSingerBySongId(song.get().getId());
+        return new ResponseEntity<>(singerList, HttpStatus.OK);
     }
 }
