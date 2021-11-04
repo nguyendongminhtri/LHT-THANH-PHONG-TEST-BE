@@ -21,20 +21,22 @@ public class Song {
     User user;
     @ManyToOne
     Category category;
-//        @JsonIgnore
+    //        @JsonIgnore
 //    @ManyToMany(fetch = FetchType.LAZY)
 //    @JoinTable(name = "song_singer",joinColumns = @JoinColumn(name = "song_id"), inverseJoinColumns = @JoinColumn(name = "singer_id"))
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Singer.class)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "song_singer",
             joinColumns = @JoinColumn(name = "song_id"),
             inverseJoinColumns = @JoinColumn(name = "singer_id"))
-    List<Singer> singerList;
-//        @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Band.class)
+    List<Singer> singerList = null;
+    //        @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "song_band", joinColumns = @JoinColumn(name = "song_id"), inverseJoinColumns = @JoinColumn(name = "band_id"))
-    List<Band> bandList;
+    List<Band> bandList = null;
+
     public Song() {
     }
+
     public Song(Long id, String nameSong, String lyrics, String avatarSong, String mp3Url, User user, Category category, List<Singer> singerList, List<Band> bandList) {
         this.id = id;
         this.nameSong = nameSong;
@@ -48,6 +50,9 @@ public class Song {
     }
 
     public List<Band> getBandList() {
+        if(bandList==null){
+            this.bandList = new ArrayList<>();
+        }
         return bandList;
     }
 
@@ -56,6 +61,9 @@ public class Song {
     }
 
     public List<Singer> getSingerList() {
+        if(singerList==null){
+            this.singerList = new ArrayList<>();
+        }
         return singerList;
     }
 
