@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.*;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,16 +23,16 @@ public class Song {
     User user;
     @ManyToOne
     Category category;
-    //        @JsonIgnore
+            @JsonIgnore
 //    @ManyToMany(fetch = FetchType.LAZY)
 //    @JoinTable(name = "song_singer",joinColumns = @JoinColumn(name = "song_id"), inverseJoinColumns = @JoinColumn(name = "singer_id"))
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "song_singer",
             joinColumns = @JoinColumn(name = "song_id"),
             inverseJoinColumns = @JoinColumn(name = "singer_id"))
-    List<Singer> singerList = null;
-    //        @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
+            List<Singer> singerList = null;
+            @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "song_band", joinColumns = @JoinColumn(name = "song_id"), inverseJoinColumns = @JoinColumn(name = "band_id"))
     List<Band> bandList = null;
 
