@@ -1,11 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.response.ResponMessage;
-import com.example.demo.model.Band;
-import com.example.demo.model.Category;
-import com.example.demo.model.Singer;
-import com.example.demo.model.Song;
+import com.example.demo.dto.response.SongDetail;
+import com.example.demo.model.*;
+import com.example.demo.security.userprincal.UserDetailService;
 import com.example.demo.service.impl.CategoryServiceImpl;
+import com.example.demo.service.impl.LikeSongServiceImpl;
 import com.example.demo.service.impl.SingerServiceImpl;
 import com.example.demo.service.impl.SongServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,10 @@ public class SongController {
     SongServiceImpl songService;
     @Autowired
     CategoryServiceImpl categoryService;
-
+    @Autowired
+    LikeSongServiceImpl likeSongService;
+    @Autowired
+    UserDetailService userDetailService;
     @GetMapping
     public ResponseEntity<?> pageSong(@PageableDefault(sort = "nameSong", direction = Sort.Direction.ASC) Pageable pageable) {
         Page<Song> page = songService.findAll(pageable);
@@ -82,7 +85,21 @@ public class SongController {
         if (!song.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(song, HttpStatus.OK);
+        SongDetail songDetail = new SongDetail();
+        songDetail.setSong(song.get());
+        User user = userDetailService.getCurrentUser();
+        System.out.println("user.getId ==> "+user.getId());
+        if(user.getId()!=null){
+            Optional<LikeSong> likeSong = likeSongService.findBySongIdAndUserId(song.get().getId(),user.getId());
+            if(!likeSong.isPresent()){
+                songDetail.setCheckLikeSong(false);
+            } else {
+                songDetail.setCheckLikeSong(true);
+            }
+        } else {
+            songDetail.setCheckLikeSong(false);
+        }
+        return new ResponseEntity<>(songDetail, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -91,6 +108,7 @@ public class SongController {
         if (!song.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
         songService.deleteById(id);
         return new ResponseEntity<>(new ResponMessage("delete_success"), HttpStatus.OK);
     }
@@ -103,13 +121,40 @@ public class SongController {
         }
         return new ResponseEntity<>(songList, HttpStatus.OK);
     }
+
     @GetMapping("/by-singer/{id}")
-    public ResponseEntity<?> getSingerBySongId(@PathVariable Long id){
+    public ResponseEntity<?> getSingerBySongId(@PathVariable Long id) {
         Optional<Song> song = songService.findById(id);
         if (!song.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         List<Singer> singerList = songService.listSingerBySongId(song.get().getId());
         return new ResponseEntity<>(singerList, HttpStatus.OK);
+    }
+
+    @GetMapping("/like/{id}")
+    public ResponseEntity<?> likeSong(@PathVariable Long id) {
+            User user = userDetailService.getCurrentUser();
+            if(user.getId()==null){
+                return new ResponseEntity<>(new ResponMessage("no_user"), HttpStatus.OK);
+            }
+           Optional<Song> song = songService.findById(id);
+            if(!song.isPresent()){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        Optional<LikeSong> likeSong = likeSongService.findBySongIdAndUserId(song.get().getId(),user.getId());
+        if(!likeSong.isPresent()){
+            LikeSong likeSong1 = new LikeSong();
+            likeSong1.setSong(song.get());
+            likeSongService.save(likeSong1);
+            song.get().setLikeSong(song.get().getLikeSong()+1);
+            songService.save(song.get());
+            return new ResponseEntity<>(new ResponMessage("like"), HttpStatus.OK);
+        } else {
+            likeSongService.deleteById(likeSong.get().getId());
+            song.get().setLikeSong(song.get().getLikeSong()-1);
+            songService.save(song.get());
+            return new ResponseEntity<>(new ResponMessage("un_like"), HttpStatus.OK);
+        }
     }
 }

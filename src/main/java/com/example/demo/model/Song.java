@@ -19,6 +19,7 @@ public class Song {
     private String lyrics;
     private String avatarSong;
     private String mp3Url;
+    private int likeSong;
     @ManyToOne
     User user;
     @ManyToOne
@@ -38,7 +39,7 @@ public class Song {
     public Song() {
     }
 
-    public Song(Long id, String nameSong, String lyrics, String avatarSong, String mp3Url, User user, Category category, List<Singer> singerList, List<Band> bandList) {
+    public Song(Long id, String nameSong, String lyrics, String avatarSong, String mp3Url,int likeSong, User user, Category category, List<Singer> singerList, List<Band> bandList) {
         this.id = id;
         this.nameSong = nameSong;
         this.lyrics = lyrics;
@@ -48,6 +49,7 @@ public class Song {
         this.category = category;
         this.singerList = singerList;
         this.bandList = bandList;
+        this.likeSong = likeSong;
     }
 
     public List<Band> getBandList() {
@@ -59,6 +61,14 @@ public class Song {
 
     public void setBandList(List<Band> bandList) {
         this.bandList = bandList;
+    }
+
+    public int getLikeSong() {
+        return likeSong;
+    }
+
+    public void setLikeSong(int likeSong) {
+        this.likeSong = likeSong;
     }
 
     public List<Singer> getSingerList() {
